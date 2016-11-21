@@ -2,12 +2,16 @@
 #include <QString>
 #include <QVector>
 #include <QTimer>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
-#define PATH "./do/pound0"
+#define PATH "./doData/day"
 #define INDEX 288
 
-class DataTxt
+class DataTxt: public QObject
 {
+	Q_OBJECT
 public:
 	DataTxt();
 	//获取一条需要发送的数据
@@ -16,6 +20,8 @@ public:
 
 private slots:
 	void checkTime();
+	void doGet();
+	void finishedGet(QNetworkReply* reply);
 private:
 	//存放txt中的数据
 	QVector< QVector<QString> > m_pounds;
@@ -28,5 +34,11 @@ private:
 
 	//监测日期是否变化
 	QTimer* m_checkTimer;
+
+	//用来获取天气数据
+	QNetworkAccessManager* m_manager;
+	QTimer* m_weatherTimer;
+	QNetworkRequest* m_request;
+	
 
 };

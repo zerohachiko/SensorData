@@ -8,7 +8,7 @@ set(FOO_SRCS
 
 )
 
-QT4_WRAP_CPP(FOO_MOC_H HttpPost.h)
+QT4_WRAP_CPP(FOO_MOC_H HttpPost.h DataTxt.h)
 
 #QT4_WRAP_UI(FOO_UIS_H ${FOO_UIS})
 

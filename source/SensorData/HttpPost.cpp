@@ -18,7 +18,7 @@ HttpPost::HttpPost(QWidget* parent) :QMainWindow(parent)
 	connect(m_timer, SIGNAL(timeout()), SLOT(postData()));
 	connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finishedPost(QNetworkReply*)));
 
-	m_timer->start(3000);
+	m_timer->start(300000);
 }
 
 void HttpPost::postData()

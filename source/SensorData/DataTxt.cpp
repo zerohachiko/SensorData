@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QStringList>
+#include <QUrl>
 
 DataTxt::DataTxt()
 {
@@ -23,6 +24,15 @@ DataTxt::DataTxt()
 
 	//初始化监测时间
 	m_checkTimer = new QTimer;
+	connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkTime()));
+	m_checkTimer->start(5000);
+	//初始化http
+	m_manager = new QNetworkAccessManager;
+	m_weatherTimer = new QTimer;
+	m_request = new QNetworkRequest;
+	connect(m_weatherTimer, SIGNAL(timeout()), this, SLOT(doGet()));
+	connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(finishedGet(QNetworkReply*)));
+	m_weatherTimer->start(3000);
 
 }
 
@@ -32,7 +42,7 @@ void DataTxt::init()
 	for (int i = 1; i < 8; ++i)
 	{
 		//QString path = PATH + QString::number(i, 10) + "/date" + QString::number(m_day, 10) + ".txt";
-		QString path = PATH + QString::number(i, 10)+ ".txt";
+		QString path = PATH + QString::number(m_day,10)+"/pound0"+QString::number(i, 10)+".txt";
 		QFile file(path);
 		if ( !file.open(QIODevice::ReadOnly | QIODevice::Text))
 		{
@@ -94,6 +104,7 @@ QString DataTxt::getOneData()
 	if( INDEX == m_number )
 	{
 		//说明新的一天开始了
+		qDebug()<<"a new day======================================================================"<<m_day;
 		QDate nowdate = QDate::currentDate();
 		int day = nowdate.day();
 		m_day = day;
@@ -114,7 +125,7 @@ void DataTxt::checkTime()
 	{
 		//需要重新初始化
 		m_day = day;
-		qDebug()<<"a new day... ...";
+		qDebug()<<"a new day======================================================================"<<m_day;
 		for (int i = 0; i < 7; ++i)
 		{
 			m_pounds[i].clear();
@@ -123,4 +134,15 @@ void DataTxt::checkTime()
 		init();
 		m_number = 0;
 	}
+}
+
+void DataTxt::doGet()
+{
+	m_request->setUrl( QUrl(QString("http://api.36wu.com/Weather/GetWeather?district=溧阳&authkey=5f68217df073462881cfc449ef24fcc8&format=json").toUtf8()) );
+	QNetworkReply* reply = m_manager->get(*m_request);
+}
+
+void DataTxt::finishedGet(QNetworkReply* reply)
+{
+	qDebug()<<reply->readAll();
 }
