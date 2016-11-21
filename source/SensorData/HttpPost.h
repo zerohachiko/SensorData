@@ -14,9 +14,10 @@ public:
 
 private slots:
 	void finishedPost( QNetworkReply* reply);
+	void postData();
 
 private:
-	void postData();
+	
 
 private:
 	QTimer* m_timer;

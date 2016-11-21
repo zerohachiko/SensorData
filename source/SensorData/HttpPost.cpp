@@ -9,6 +9,8 @@ HttpPost::HttpPost(QWidget* parent) :QMainWindow(parent)
 	m_request = new QNetworkRequest;
 	m_manager = new QNetworkAccessManager;
 	m_data = new DataTxt;
+	m_data->init();
+
 	m_request->setUrl(QUrl("http://112.21.191.49:8088/zhny/api/sensor.info") );
 	m_request->setRawHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -16,14 +18,13 @@ HttpPost::HttpPost(QWidget* parent) :QMainWindow(parent)
 	connect(m_timer, SIGNAL(timeout()), SLOT(postData()));
 	connect(m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finishedPost(QNetworkReply*)));
 
-	m_timer->start(60000);
+	m_timer->start(3000);
 }
 
 void HttpPost::postData()
 {
 	QString oneData = m_data->getOneData();
-	QString data;
-	m_manager->post(*m_request, data.toUtf8());
+	m_manager->post(*m_request, oneData.toUtf8());
 }
 
 void HttpPost::finishedPost(QNetworkReply* reply )
