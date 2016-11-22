@@ -4,6 +4,10 @@ set(FOO_SRCS
 	DataTxt.cpp
 	HttpPost.h
 	HttpPost.cpp
+	HMAC_SHA1.cpp
+	HMAC_SHA1.h
+	SHA1.cpp
+	SHA1.h
 
 
 )
