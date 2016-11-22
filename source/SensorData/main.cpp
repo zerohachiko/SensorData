@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	QDir dir;
-	qInstallMsgHandler(customMessageHandler);
+	//qInstallMsgHandler(customMessageHandler);
 	qDebug() << dir.currentPath();
 	HttpPost post;
 	post.show();

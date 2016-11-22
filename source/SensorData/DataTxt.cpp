@@ -1,4 +1,4 @@
-#include "DataTxt.h"
+ï»¿#include "DataTxt.h"
 #include <QTime>
 #include <QDate>
 #include <QFile>
@@ -8,10 +8,10 @@
 
 DataTxt::DataTxt()
 {
-	//»ñµÃÆô¶¯³ÌĞòÊ±µÄÈÕÆÚ
+	//è·å¾—å¯åŠ¨ç¨‹åºæ—¶çš„æ—¥æœŸ
 	QDate nowdate = QDate::currentDate();
 	m_day = nowdate.day();
-	//»ñµÃºÏÊÊµÄË÷Òı
+	//è·å¾—åˆé€‚çš„ç´¢å¼•
 	QTime nowtime = QTime::currentTime();
 	int hour = nowtime.hour();
 	int minute = nowtime.minute();
@@ -22,14 +22,16 @@ DataTxt::DataTxt()
 		m_pounds.push_back( QVector<QString>());
 	}
 
-	//³õÊ¼»¯¼à²âÊ±¼ä
+	//åˆå§‹åŒ–ç›‘æµ‹æ—¶é—´
 	m_checkTimer = new QTimer;
 	connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkTime()));
 	m_checkTimer->start(5000);
-	//³õÊ¼»¯http
+	//åˆå§‹åŒ–http
 	m_manager = new QNetworkAccessManager;
 	m_weatherTimer = new QTimer;
 	m_request = new QNetworkRequest;
+	m_request->setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
 	connect(m_weatherTimer, SIGNAL(timeout()), this, SLOT(doGet()));
 	connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(finishedGet(QNetworkReply*)));
 	m_weatherTimer->start(3000);
@@ -38,7 +40,7 @@ DataTxt::DataTxt()
 
 void DataTxt::init()
 {
-	//¶ÁÈ¡³õÊ¼»¯µ±ÌìµÄ¿ÉÓÃÊı¾İ
+	//è¯»å–åˆå§‹åŒ–å½“å¤©çš„å¯ç”¨æ•°æ®
 	for (int i = 1; i < 8; ++i)
 	{
 		//QString path = PATH + QString::number(i, 10) + "/date" + QString::number(m_day, 10) + ".txt";
@@ -57,31 +59,31 @@ void DataTxt::init()
 
 QString DataTxt::getOneData()
 {
-	//¹¹½¨JsonÊı¾İ
+	//æ„å»ºJsonæ•°æ®
 	QString data("Jsondata=[");
 	for (int i = 0; i < 7; ++i)
 	{
 		QString record = m_pounds[i][m_number];
 		QStringList strlist = record.split(",");
-		//Ë®ÖĞÈÚÑõ
+		//æ°´ä¸­èæ°§
 		data.append("{'type':'0', 'unit':'ppm', 'value':'");
 		data.append(strlist[0]);
 		data.append("', 'id':'");
 		data.append(QString::number(i,10));
 		data.append("', 'companyid':'1601'},");
-		//¿ÕÆøÎÂ¶È
+		//ç©ºæ°”æ¸©åº¦
 		data.append("{'type':'2', 'unit':'du', 'value':'");
 		data.append(strlist[1]);
 		data.append("', 'id':'");
 		data.append(QString::number(i, 10));
 		data.append("', 'companyid':'1601'},");
-		//Ë®ÎÂ
+		//æ°´æ¸©
 		data.append("{'type':'5', 'unit':'du', 'value':'");
 		data.append(strlist[2]);
 		data.append("', 'id':'");
 		data.append(QString::number(i, 10));
 		data.append("', 'companyid':'1601'},");
-		//¹âÕÕ
+		//å…‰ç…§
 		data.append("{'type':'8', 'unit':'lm', 'value':'");
 		data.append(strlist[3]);
 		data.append("', 'id':'");
@@ -103,7 +105,7 @@ QString DataTxt::getOneData()
 	qDebug()<<"this index is : "+QString::number(m_number, 10);
 	if( INDEX == m_number )
 	{
-		//ËµÃ÷ĞÂµÄÒ»Ìì¿ªÊ¼ÁË
+		//è¯´æ˜æ–°çš„ä¸€å¤©å¼€å§‹äº†
 		qDebug()<<"a new day======================================================================"<<m_day;
 		QDate nowdate = QDate::currentDate();
 		int day = nowdate.day();
@@ -123,7 +125,7 @@ void DataTxt::checkTime()
 	int day = nowdate.day();
 	if( day != m_day)
 	{
-		//ĞèÒªÖØĞÂ³õÊ¼»¯
+		//éœ€è¦é‡æ–°åˆå§‹åŒ–
 		m_day = day;
 		qDebug()<<"a new day======================================================================"<<m_day;
 		for (int i = 0; i < 7; ++i)
@@ -138,11 +140,11 @@ void DataTxt::checkTime()
 
 void DataTxt::doGet()
 {
-	m_request->setUrl( QUrl(QString("http://api.36wu.com/Weather/GetWeather?district=äàÑô&authkey=5f68217df073462881cfc449ef24fcc8&format=json").toUtf8()) );
+	m_request->setUrl(QUrl(QString("http://api.36wu.com/Weather/GetWeather?district=%E6%BA%A7%E9%98%B3&authkey=c99066a38f784b388f28906321e58216&format=json")));
 	QNetworkReply* reply = m_manager->get(*m_request);
 }
 
 void DataTxt::finishedGet(QNetworkReply* reply)
 {
-	qDebug()<<reply->readAll();
+	qWarning()<<reply->readAll();
 }
