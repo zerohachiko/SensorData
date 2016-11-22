@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QDate>
 #include <QTime>
+#include <QTextCodec>
 
 void customMessageHandler(QtMsgType type, const char *msg)  
 {  
@@ -36,7 +37,7 @@ void customMessageHandler(QtMsgType type, const char *msg)
 	QString txt2 = txt.append("(").append(current_date).append(")");
 
 	outFile1.open(QIODevice::WriteOnly | QIODevice::Append);  
-	if(outFile1.size() >= 1024*10 )  
+	if(outFile1.size() >= 1024*1000 )  
 	{  
 		outFile1.close();  
 		outFile2.remove();  
@@ -59,6 +60,11 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	QDir dir;
+	QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+	QTextCodec::setCodecForTr(codec);
+	QTextCodec::setCodecForLocale(codec);
+	QTextCodec::setCodecForCStrings(codec);
+
 	qInstallMsgHandler(customMessageHandler);
 	qDebug() << dir.currentPath();
 	HttpPost post;
