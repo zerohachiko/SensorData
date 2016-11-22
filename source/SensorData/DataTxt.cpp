@@ -82,7 +82,7 @@ QString DataTxt::getOneData()
 		data.append("', 'companyid':'1601'},");
 		//水温
 		data.append("{'type':'5', 'unit':'du', 'value':'");
-		data.append(QString::number(m_air_temp, 10));
+		data.append(QString::number(m_water_temp, 10));
 		data.append("', 'id':'");
 		data.append(QString::number(i, 10));
 		data.append("', 'companyid':'1601'},");
