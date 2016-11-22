@@ -3,7 +3,6 @@
 //*                 Comfort to RFC 2104
 //*
 //******************************************************************************
-#include "stdafx.h"
 #include <iostream>
 #include <memory>
 #include "HMAC_SHA1.h"

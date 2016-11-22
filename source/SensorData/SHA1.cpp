@@ -28,7 +28,6 @@
 	SHA1(A million repetitions of "a") =
 		34AA973C D4C4DAA4 F61EEB2B DBAD2731 6534016F
 */
-#include "stdafx.h"
 #include "SHA1.h"
 
 #ifdef SHA1_UTILITY_FUNCTIONS
