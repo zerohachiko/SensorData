@@ -5,6 +5,11 @@
 #include <QDebug>
 #include <QStringList>
 #include <QUrl>
+#include <iostream>
+#include <QtScript>
+#include <QtScript/QScriptEngine>
+#include <QtScript/QScriptValue>
+#include <QtScript/QScriptValueIterator>
 
 DataTxt::DataTxt()
 {
@@ -34,7 +39,7 @@ DataTxt::DataTxt()
 
 	connect(m_weatherTimer, SIGNAL(timeout()), this, SLOT(doGet()));
 	connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(finishedGet(QNetworkReply*)));
-	m_weatherTimer->start(3000);
+	m_weatherTimer->start(180000);
 
 }
 
@@ -73,13 +78,13 @@ QString DataTxt::getOneData()
 		data.append("', 'companyid':'1601'},");
 		//空气温度
 		data.append("{'type':'2', 'unit':'du', 'value':'");
-		data.append(strlist[1]);
+		data.append(QString::number(m_air_temp, 10));
 		data.append("', 'id':'");
 		data.append(QString::number(i, 10));
 		data.append("', 'companyid':'1601'},");
 		//水温
 		data.append("{'type':'5', 'unit':'du', 'value':'");
-		data.append(strlist[2]);
+		data.append(QString::number(m_water_temp, 10));
 		data.append("', 'id':'");
 		data.append(QString::number(i, 10));
 		data.append("', 'companyid':'1601'},");
@@ -140,11 +145,36 @@ void DataTxt::checkTime()
 
 void DataTxt::doGet()
 {
-	m_request->setUrl(QUrl(QString("http://api.36wu.com/Weather/GetWeather?district=%E6%BA%A7%E9%98%B3&authkey=c99066a38f784b388f28906321e58216&format=json")));
+<<<<<<< HEAD
+=======
+	QString strUrl("https://api.thinkpage.cn/v3/weather/now.json?key=xzir1neqw2fcxgq1&location=changzhou&language=zh-Hans&unit=c");
+	qDebug()<<strUrl;
+	QUrl url(strUrl);
+	m_request->setUrl( url );
+>>>>>>> fdc4fe75b32e53a7243dc773ebf7af5e76bbaf25
 	QNetworkReply* reply = m_manager->get(*m_request);
 }
 
 void DataTxt::finishedGet(QNetworkReply* reply)
 {
-	qWarning()<<reply->readAll();
+<<<<<<< HEAD
+=======
+	QString jsonStr(reply->readAll());
+	QScriptEngine engine;
+	QScriptValue sc =  engine.evaluate("value=" + jsonStr);
+	if (sc.property("results").isArray())   //解析数组
+	{
+		QScriptValueIterator it(sc.property("results"));
+		while(it.hasNext())
+		{
+			it.next();
+			if (!it.value().property("now").toString().isEmpty())
+			{
+				m_air_temp =  it.value().property("now").property("temperature").toInteger();
+				m_water_temp = m_air_temp + 2;
+				qDebug()<<"空气温度为： "<<m_air_temp;
+			}
+		}
+	}
+>>>>>>> fdc4fe75b32e53a7243dc773ebf7af5e76bbaf25
 }

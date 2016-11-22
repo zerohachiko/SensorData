@@ -39,6 +39,9 @@ private:
 	QNetworkAccessManager* m_manager;
 	QTimer* m_weatherTimer;
 	QNetworkRequest* m_request;
-	
+
+	//ÎÂ¶ÈĞÅÏ¢
+	int m_air_temp;
+	int m_water_temp;
 
 };
