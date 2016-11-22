@@ -60,15 +60,13 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	QDir dir;
-<<<<<<< HEAD
-=======
+
 	QTextCodec *codec = QTextCodec::codecForName("UTF-8");
 	QTextCodec::setCodecForTr(codec);
 	QTextCodec::setCodecForLocale(codec);
 	QTextCodec::setCodecForCStrings(codec);
 
 	qInstallMsgHandler(customMessageHandler);
->>>>>>> fdc4fe75b32e53a7243dc773ebf7af5e76bbaf25
 	qDebug() << dir.currentPath();
 	HttpPost post;
 	post.show();

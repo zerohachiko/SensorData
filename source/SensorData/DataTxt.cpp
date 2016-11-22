@@ -145,20 +145,17 @@ void DataTxt::checkTime()
 
 void DataTxt::doGet()
 {
-<<<<<<< HEAD
-=======
+
 	QString strUrl("https://api.thinkpage.cn/v3/weather/now.json?key=xzir1neqw2fcxgq1&location=changzhou&language=zh-Hans&unit=c");
 	qDebug()<<strUrl;
 	QUrl url(strUrl);
 	m_request->setUrl( url );
->>>>>>> fdc4fe75b32e53a7243dc773ebf7af5e76bbaf25
 	QNetworkReply* reply = m_manager->get(*m_request);
 }
 
 void DataTxt::finishedGet(QNetworkReply* reply)
 {
-<<<<<<< HEAD
-=======
+
 	QString jsonStr(reply->readAll());
 	QScriptEngine engine;
 	QScriptValue sc =  engine.evaluate("value=" + jsonStr);
@@ -176,5 +173,5 @@ void DataTxt::finishedGet(QNetworkReply* reply)
 			}
 		}
 	}
->>>>>>> fdc4fe75b32e53a7243dc773ebf7af5e76bbaf25
+
 }
