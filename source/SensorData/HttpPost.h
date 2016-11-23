@@ -1,3 +1,6 @@
+#ifndef HTTPPOST_H
+#define HTTPPOST_H
+
 #include <QWidget>
 #include <QMainWindow>
 #include <QNetworkAccessManager>
@@ -12,12 +15,12 @@ class HttpPost : public QMainWindow
 public:
 	explicit HttpPost(QWidget* parent = 0);
 
-private slots:
-	void finishedPost( QNetworkReply* reply);
-	void postData();
+	private slots:
+		void finishedPost( QNetworkReply* reply);
+		void postData();
 
 private:
-	
+
 
 private:
 	QTimer* m_timer;
@@ -26,3 +29,6 @@ private:
 	DataTxt* m_data;
 
 };
+
+#endif
+

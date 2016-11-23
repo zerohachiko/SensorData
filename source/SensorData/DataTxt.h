@@ -1,3 +1,6 @@
+#ifndef DATATXT_H
+#define DATATXT_H
+
 #include <string>
 #include <QString>
 #include <QVector>
@@ -18,10 +21,10 @@ public:
 	QString getOneData();
 	void init();
 
-private slots:
-	void checkTime();
-	void doGet();
-	void finishedGet(QNetworkReply* reply);
+	private slots:
+		void checkTime();
+		void doGet();
+		void finishedGet(QNetworkReply* reply);
 private:
 	//存放txt中的数据
 	QVector< QVector<QString> > m_pounds;
@@ -45,3 +48,6 @@ private:
 	int m_water_temp;
 
 };
+
+#endif
+
