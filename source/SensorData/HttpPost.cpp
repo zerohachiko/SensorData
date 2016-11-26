@@ -24,6 +24,8 @@ HttpPost::HttpPost(QWidget* parent) :QMainWindow(parent)
 void HttpPost::postData()
 {
 	QString oneData = m_data->getOneData();
+	//log记录一下post数据
+	qDebug()<<oneData;
 	m_manager->post(*m_request, oneData.toUtf8());
 }
 

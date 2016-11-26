@@ -9,7 +9,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#define PATH "./doData/day"
+#define PATH "./all/Pound0"
 #define INDEX 288
 
 class DataTxt: public QObject
